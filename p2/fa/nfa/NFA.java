@@ -61,4 +61,16 @@ public class NFA implements NFAInterface {
 		return null;
 	}
 
+	@Override
+	public Set<NFAState> getToState(NFAState from, char onSymb) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<NFAState> eClosure(NFAState s) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
