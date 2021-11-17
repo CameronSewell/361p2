@@ -18,7 +18,7 @@ public class NFAState extends State
     {
         this.name = name;
         isFinal = false;
-        transitions = new HashMap<Character, HashSet<NFAState>();
+        transitions = new HashMap<Character, HashSet<NFAState>>();
     }
     
     /**
@@ -29,7 +29,7 @@ public class NFAState extends State
     {
         this.name = name;
         this.isFinal = isFinal;
-        transitions = new HashMap<Character, HashSet<NFAState>();
+        transitions = new HashMap<Character, HashSet<NFAState>>();
     }
     
     /**
