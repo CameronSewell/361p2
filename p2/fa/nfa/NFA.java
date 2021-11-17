@@ -12,6 +12,7 @@ public class NFA implements NFAInterface
 	
 	private Set<NFAState> states;
 	private NFAState start;
+	private NFAState fstate;
 	private Set<Character> ordAbc;
 
 	public NFA(){
@@ -154,10 +155,28 @@ public class NFA implements NFAInterface
 		return from.getTo(onSymb);
 	}
 
-	@Override
-	public Set<NFAState> eClosure(NFAState s) 
+	public Set<NFAState> eClosure(NFAState s)
 	{
-		return null;
+		LinkedHashSet<NFAState> emptyStates = new LinkedHashSet<>();
+		return DFS(s, emptyStates);
+	}
+	
+	
+	private LinkedHashSet<NFAState> DFS(NFAState s, LinkedHashSet<NFAState> list)
+	{
+		list.add(s);
+		Set<NFAState> eStates = s.getTo('e');
+		if (eStates != null) 
+		{
+			for (NFAState e : eStates)
+			{
+				if (list.contains(e) == false)
+				{
+					DFS(e, list);
+				}
+			}
+		}
+		return list;
 	}
 
 }
