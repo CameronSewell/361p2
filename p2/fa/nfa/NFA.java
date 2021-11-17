@@ -111,44 +111,52 @@ public class NFA implements NFAInterface
 	}
 
 	@Override
-	public Set<? extends State> getStates() {
-		// TODO Auto-generated method stub
+	public Set<? extends State> getStates()
+	{
+		return states;
+	}
+
+	@Override
+	public Set<? extends State> getFinalStates() 
+	{
+		Set<NFAState> retval = new LinkedHashSet<NFAState>();
+		for(NFAState s : states)
+		{
+			if(s.isFinal())
+			{
+				retval.add(s);
+			}
+		}
+		return retval;
+	}
+
+	@Override
+	public State getStartState() 
+	{
+		return start;
+	}
+
+	@Override
+	public Set<Character> getABC() 
+	{
+		return ordAbc;
+	}
+
+	@Override
+	public DFA getDFA() 
+	{
 		return null;
 	}
 
 	@Override
-	public Set<? extends State> getFinalStates() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<NFAState> getToState(NFAState from, char onSymb) 
+	{
+		return from.getTo(onSymb);
 	}
 
 	@Override
-	public State getStartState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Character> getABC() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DFA getDFA() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<NFAState> getToState(NFAState from, char onSymb) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<NFAState> eClosure(NFAState s) {
-		// TODO Auto-generated method stub
+	public Set<NFAState> eClosure(NFAState s) 
+	{
 		return null;
 	}
 
