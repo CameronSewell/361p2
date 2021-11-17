@@ -30,7 +30,7 @@ public class NFA implements NFAInterface
 		} 
 		else 
 		{
-			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
+			System.out.println("WARNING: A state with name " + name + " already exists in the NFA");
 		}
 		start = s;
 
@@ -47,7 +47,7 @@ public class NFA implements NFAInterface
 		} 
 		else 
 		{
-			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
+			System.out.println("WARNING: A state with name " + name + " already exists in the NFA");
 		}
 
 	}
@@ -63,15 +63,51 @@ public class NFA implements NFAInterface
 		} 
 		else 
 		{
-			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
+			System.out.println("WARNING: A state with name " + name + " already exists in the NFA");
 		}
 
 	}
+	
+	private void addState(NFAState s){
+		states.add(s);
+	}
 
 	@Override
-	public void addTransition(String fromState, char onSymb, String toState) {
-		// TODO Auto-generated method stub
+	public void addTransition(String fromState, char onSymb, String toState) 
+	{
+		NFAState from = checkIfExists(fromState);
+		NFAState to = checkIfExists(toState);
+		if(from == null)
+		{
+			System.err.println("ERROR: No NFA state exists with name " + fromState);
+			System.exit(2);
+		}
+		else if (to == null)
+		{
+			System.err.println("ERROR: No NFA state exists with name " + toState);
+			System.exit(2);
+		}
+		from.addTransition(onSymb, to);
+		
+		if(!ordAbc.contains(onSymb))
+		{
+			ordAbc.add(onSymb);
+		}
 
+	}
+	
+	private NFAState checkIfExists(String name)
+	{
+		NFAState retval = null;
+		for(NFAState s : states)
+		{
+			if(s.getName().equals(name))
+			{
+				retval = s;
+				break;
+			}
+		}
+		return retval;
 	}
 
 	@Override
