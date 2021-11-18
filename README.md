@@ -1,5 +1,5 @@
 # 361p2#
-# Project X: p2
+# Project p2
 
 * Author: Cameron Sewell and Dallas Larsen
 * Class: CS361 Section 1, Cameron, and 2, Dallas
