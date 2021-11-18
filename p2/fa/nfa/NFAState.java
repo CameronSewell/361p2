@@ -5,6 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 import fa.State;
 
+/**
+*Class to create a NFAState object
+*Design inspiration pulled from fa.dfa,DFAState.java by elenasherman
+*
+*@author Cameron Sewell, Dallas Larsen
+*/
 public class NFAState extends State
 {
     private HashMap<Character, HashSet<NFAState>> transitions;//delta
@@ -22,7 +28,7 @@ public class NFAState extends State
     }
     
     /**
-    *Constructor
+    *Constructor for final states
     *@param name
     */
     public NFAState(String name, boolean isFinal)
@@ -33,20 +39,20 @@ public class NFAState extends State
     }
     
     /**
-	  * Accessor for the state type
-	  * @return true if final and false otherwise
-	  */
-	  public boolean isFinal()
+    * Gets the state type
+    * @return true for final states
+    */
+    public boolean isFinal()
     {
-		    return isFinal;
-	  }
+        return this.isFinal;
+    }
     
     /**
-	  * Add the transition from <code> this </code> object
-	  * @param onSymb the alphabet symbol
-	  * @param toState to NFA state
-	  */
-	  public void addTransition(char onSymb, NFAState toState)
+    * Adds a transition to the map 
+    * @param onSymb alphabet symbol
+    * @param toState State transitioned to
+    */
+    public void addTransition(char onSymb, NFAState toState)
     {
         if (transitions.containsKey(onSymb) == true)
         {
@@ -58,21 +64,22 @@ public class NFAState extends State
             transitions.put(onSymb, toState);
             transitions.get(onSymb).add(toState);
         }
-	  }
+    }
     
     /**
-	  * Retrieves the state that <code>this</code> transitions to
-	  * on the given symbol
-	  * @param symb - the alphabet symbol
-	  * @return the new state 
-	  */
-	  public Set<NFAState> getTo(char symb)
+    * Gets the transition set based on the alphabet symbol
+    * @param symb - the alphabet symbol
+    * @return the transition set
+    */
+    public Set<NFAState> getTo(char symb)
     {
-		    Set<NFAState> returnTransition = transitions.get(symb);
-		    if(returnTransition == null)
+        Set<NFAState> returnTransition = transitions.get(symb);
+	if(returnTransition == null)
         {
-			      return new HashSet<NFAState>();
-			  }
-		    return transitions.get(symb);
-	  }
+	    return new HashSet<NFAState>();
+	}
+	else
+	{
+	     return transitions.get(symb);
+	}
 }
