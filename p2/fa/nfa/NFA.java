@@ -1,6 +1,7 @@
 package fa.nfa;
 
 import java.util.LinkedHashSet;
+import java.util.Queue;
 import java.util.Set;
 
 import fa.State;
@@ -146,9 +147,88 @@ public class NFA implements NFAInterface
 	@Override
 	public DFA getDFA() 
 	{
-		/* TODO: figure this shit out*/
-		return null;
+		DFA newNFA = new DFA();
+		boolean finalS = false;
+		boolean stateInDFA = false;
+		Queue<LinkedHashSet<NFAState> nStates = new LinkedHashSet<NFAState>>();///////////////////////////
+	    nStates.add(eClosure(start));
+	    while(!nStates.isEmpty())
+	    {
+	    	LinkedHashSet<NFAState> current = nStates.poll();
+	    	
+	    	for(NFAState s : current)
+	    	{
+	    		if(s.isFinal())
+	    		{
+	    			finalS = true;
+	    		}
+	    	}
+	    	if(newNFA.getStartState() == null && finalS == false)
+	    	{
+	    		newNFA.addStartState((current.toString()));
+	    	}
+	    	else if(newNFA.getStartState() == null && finalS == true)
+	    	{
+	    		newNFA.addStartState((current.toString()));
+	    		newNFA.addFinalState((current.toString()));
+	    	}
+	    	for(Character onSymb : getABC())
+	    	{
+	    		LinkedHashSet<NFAState> toSymb = new LinkedHashSet<NFAState>();
+	    		for (NFAState s : current) 
+	    		{
+					if (s.getTo(onSymb) != null) 
+					{
+						for (NFAState tmp : s.getTo(onSymb))
+						{
+							toSymb.addAll(eClosure(tmp));
+						}
+					}
+				}
+				for (State states : newNFA.getStates()) 
+				{
+					if (states.getName().equals(toSymb.toString()))
+					{
+						stateInDFA = true;
+					}
+				}
+				if (toSymb.toString() == "[]") 
+				{
+					if (stateInDFA == false) 
+					{
+						newNFA.addState("[]");
+						nStates.add(toSymb);
+					}
+					newNFA.addTransition(current.toString(), onSymb, "[]");
+				} 
+				else if (stateInDFA == false)
+				{
+					finalS = false; //
+					for (NFAState testFinal : toSymb) 
+					{
+						if (testFinal.isFinal()) 
+						{
+							finalS = true;
+						}
+					}
+					if (finalS) 
+					{
+						nStates.add(toSymb);
+						newNFA.addFinalState(toSymb.toString());
+					}
+					else
+					{
+						nStates.add(toSymb);
+						newNFA.addState(toSymb.toString());
+					}
+				}
+				newNFA.addTransition(current.toString(), onSymb, toSymb.toString());
+			}
+	    }
+		return newNFA;
 	}
+	
+	
 
 	@Override
 	public Set<NFAState> getToState(NFAState from, char onSymb) 
