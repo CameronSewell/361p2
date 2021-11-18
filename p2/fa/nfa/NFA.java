@@ -10,6 +10,12 @@ import fa.State;
 import fa.dfa.DFA;
 import fa.dfa.DFAState;
 
+/**
+*Class to create a NFA object and convert to a dfa
+*Design inspiration pulled from fa.dfa,DFA.java by elenasherman
+*
+*@author Cameron Sewell, Dallas Larsen
+*/
 public class NFA implements NFAInterface 
 {
 	
@@ -18,11 +24,19 @@ public class NFA implements NFAInterface
 	private NFAState fstate;
 	private Set<Character> ordAbc;
 
-	public NFA(){
+        /**
+	*Constructor for a NFA object
+	*/
+	public NFA()
+	{
 		states = new LinkedHashSet<NFAState>();
 		ordAbc = new LinkedHashSet<Character>();
 	}
 
+        /**
+	*Sets the start state
+	*@param name
+	*/
 	@Override
 	public void addStartState(String name) 
 	{
@@ -40,6 +54,10 @@ public class NFA implements NFAInterface
 
 	}
 
+        /**
+	*adds states to the set of states
+	*@param name
+	*/
 	@Override
 	public void addState(String name) 
 	{
@@ -56,6 +74,10 @@ public class NFA implements NFAInterface
 
 	}
 
+        /**
+	*adds final states
+	*@param name
+	*/
 	@Override
 	public void addFinalState(String name)
 	{
@@ -72,10 +94,21 @@ public class NFA implements NFAInterface
 
 	}
 	
-	private void addState(NFAState s){
+	/**
+	*adds states
+	*@param s a NFAState
+	*/
+	private void addState(NFAState s)
+	{
 		states.add(s);
 	}
 
+        /**
+	*adds transitions between states
+	*@param fromState
+	*@param onsymb
+	*@param toState
+	*/
 	@Override
 	public void addTransition(String fromState, char onSymb, String toState) 
 	{
@@ -100,6 +133,10 @@ public class NFA implements NFAInterface
 
 	}
 	
+	/**
+	*Check is state already exists
+	*@param name
+	*/
 	private NFAState checkIfExists(String name)
 	{
 		NFAState retval = null;
@@ -114,12 +151,20 @@ public class NFA implements NFAInterface
 		return retval;
 	}
 
+        /**
+	*return the states
+	*@return states
+	*/
 	@Override
 	public Set<? extends State> getStates()
 	{
 		return states;
 	}
 
+        /**
+	*return the final states
+	*@return retval
+	*/
 	@Override
 	public Set<? extends State> getFinalStates() 
 	{
@@ -134,18 +179,30 @@ public class NFA implements NFAInterface
 		return retval;
 	}
 
+        /**
+	*returns the start state
+	*@return start
+	*/
 	@Override
 	public State getStartState() 
 	{
 		return start;
 	}
 
+        /**
+	*returns the alphabet
+	*@return ordAbc
+	*/
 	@Override
 	public Set<Character> getABC() 
 	{
 		return ordAbc;
 	}
 
+        /**
+	*returns a dfa made from the nfa
+	@return newNFA
+	*/
 	@Override
 	public DFA getDFA() 
 	{
@@ -234,20 +291,35 @@ public class NFA implements NFAInterface
 	}
 	
 	
-
+        /**
+	*returns the state based on symbol and start state
+	*@param from
+	*@param onSymb
+	*@return from.getTo(onSymb)
+	*/
 	@Override
 	public Set<NFAState> getToState(NFAState from, char onSymb) 
 	{
 		return from.getTo(onSymb);
 	}
 
+        /**
+	*returns the eClosure
+	*@param s
+	*@return DFS(s, emptyStates)
+	*/
 	public Set<NFAState> eClosure(NFAState s)
 	{
 		LinkedHashSet<NFAState> emptyStates = new LinkedHashSet<>();
 		return DFS(s, emptyStates);
 	}
 	
-	
+	/**
+	*returns a set of states based on a dfs search
+	*@param s
+	*@param list
+	*@return list
+	*/
 	private HashSet<NFAState> DFS(NFAState s, HashSet<NFAState> list)
 	{
 		list.add(s);
