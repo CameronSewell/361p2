@@ -1,6 +1,8 @@
 package fa.nfa;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
@@ -91,7 +93,7 @@ public class NFA implements NFAInterface
 		}
 		from.addTransition(onSymb, to);
 		
-		if(!ordAbc.contains(onSymb))
+		if(!ordAbc.contains(onSymb) && onSymb != 'e')
 		{
 			ordAbc.add(onSymb);
 		}
@@ -150,11 +152,13 @@ public class NFA implements NFAInterface
 		DFA newNFA = new DFA();
 		boolean finalS = false;
 		boolean stateInDFA = false;
-		Queue<LinkedHashSet<NFAState> nStates = new LinkedHashSet<NFAState>>();///////////////////////////
+		
+		Queue<Set<NFAState>> nStates = new LinkedList<Set<NFAState>>();
 	    nStates.add(eClosure(start));
+	    
 	    while(!nStates.isEmpty())
 	    {
-	    	LinkedHashSet<NFAState> current = nStates.poll();
+	    	Set<NFAState> current = nStates.poll();
 	    	
 	    	for(NFAState s : current)
 	    	{
@@ -179,9 +183,9 @@ public class NFA implements NFAInterface
 	    		{
 					if (s.getTo(onSymb) != null) 
 					{
-						for (NFAState tmp : s.getTo(onSymb))
+						for (NFAState ns : s.getTo(onSymb))
 						{
-							toSymb.addAll(eClosure(tmp));
+							toSymb.addAll(eClosure(ns));
 						}
 					}
 				}
@@ -223,6 +227,7 @@ public class NFA implements NFAInterface
 					}
 				}
 				newNFA.addTransition(current.toString(), onSymb, toSymb.toString());
+				stateInDFA = false;
 			}
 	    }
 		return newNFA;
@@ -243,7 +248,7 @@ public class NFA implements NFAInterface
 	}
 	
 	
-	private LinkedHashSet<NFAState> DFS(NFAState s, LinkedHashSet<NFAState> list)
+	private HashSet<NFAState> DFS(NFAState s, HashSet<NFAState> list)
 	{
 		list.add(s);
 		Set<NFAState> eStates = s.getTo('e');
