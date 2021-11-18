@@ -14,7 +14,7 @@ import fa.State;
 public class NFAState extends State
 {
     private HashMap<Character, HashSet<NFAState>> transitions;//delta
-	  private boolean isFinal;//remembers its type
+    private boolean isFinal;//remembers its type
     
     /**
     *Constructor
@@ -45,6 +45,15 @@ public class NFAState extends State
     public boolean isFinal()
     {
         return this.isFinal;
+    }
+    
+    /**
+    *Gets the name of the state
+    *@return name
+    */
+    public String getName()
+    {
+        return this.name;
     }
     
     /**
