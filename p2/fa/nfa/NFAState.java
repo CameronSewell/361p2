@@ -80,6 +80,7 @@ public class NFAState extends State
 	}
 	else
 	{
-	     return transitions.get(symb);
+	    return transitions.get(symb);
 	}
+    }
 }
