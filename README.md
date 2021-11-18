@@ -1,4 +1,4 @@
-# 361p2#
+# 361p2
 # Project p2
 
 * Author: Cameron Sewell and Dallas Larsen
