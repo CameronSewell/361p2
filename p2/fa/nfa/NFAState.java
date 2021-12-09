@@ -5,16 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import fa.State;
 
-/**
-*Class to create a NFAState object
-*Design inspiration pulled from fa.dfa,DFAState.java by elenasherman
-*
-*@author Cameron Sewell, Dallas Larsen
-*/
 public class NFAState extends State
 {
     private HashMap<Character, HashSet<NFAState>> transitions;//delta
-    private boolean isFinal;//remembers its type
+	  private boolean isFinal;//remembers its type
     
     /**
     *Constructor
@@ -28,7 +22,7 @@ public class NFAState extends State
     }
     
     /**
-    *Constructor for final states
+    *Constructor
     *@param name
     */
     public NFAState(String name, boolean isFinal)
@@ -39,29 +33,20 @@ public class NFAState extends State
     }
     
     /**
-    * Gets the state type
-    * @return true for final states
-    */
-    public boolean isFinal()
+	  * Accessor for the state type
+	  * @return true if final and false otherwise
+	  */
+	  public boolean isFinal()
     {
-        return this.isFinal;
-    }
+		    return isFinal;
+	  }
     
     /**
-    *Gets the name of the state
-    *@return name
-    */
-    public String getName()
-    {
-        return this.name;
-    }
-    
-    /**
-    * Adds a transition to the map 
-    * @param onSymb alphabet symbol
-    * @param toState State transitioned to
-    */
-    public void addTransition(char onSymb, NFAState toState)
+	  * Add the transition from <code> this </code> object
+	  * @param onSymb the alphabet symbol
+	  * @param toState to NFA state
+	  */
+	  public void addTransition(char onSymb, NFAState toState)
     {
         if (transitions.containsKey(onSymb) == true)
         {
@@ -70,26 +55,24 @@ public class NFAState extends State
         else
         {
             HashSet<NFAState> NFASet = new HashSet<NFAState>();
-            transitions.put(onSymb, toState);
+            transitions.put(onSymb, NFASet);
             transitions.get(onSymb).add(toState);
         }
-    }
+	  }
     
     /**
-    * Gets the transition set based on the alphabet symbol
-    * @param symb - the alphabet symbol
-    * @return the transition set
-    */
-    public Set<NFAState> getTo(char symb)
+	  * Retrieves the state that <code>this</code> transitions to
+	  * on the given symbol
+	  * @param symb - the alphabet symbol
+	  * @return the new state 
+	  */
+	  public Set<NFAState> getTo(char symb)
     {
-        Set<NFAState> returnTransition = transitions.get(symb);
-	if(returnTransition == null)
-        {
-	    return new HashSet<NFAState>();
-	}
-	else
-	{
-	    return transitions.get(symb);
-	}
-    }
+		    Set<NFAState> returnTransition = transitions.get(symb);
+		    if(returnTransition == null)
+		    {
+			      return new HashSet<NFAState>();
+			}
+		    return transitions.get(symb);
+	  }
 }
